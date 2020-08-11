@@ -1,5 +1,5 @@
 <?php
-namespace EnergyHub\Endpoints;
+namespace EnergyHub\ApiClient\Endpoints;
 
 class TagsEndpoint extends BaseEndpoint
 {

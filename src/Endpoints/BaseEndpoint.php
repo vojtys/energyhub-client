@@ -1,8 +1,8 @@
 <?php
-namespace EnergyHub\Endpoints;
+namespace EnergyHub\ApiClient\Endpoints;
 
-use EnergyHub\EnergyHubClientException;
-use EnergyHub\HttpRequest;
+use EnergyHub\ApiClient\Exception;
+use EnergyHub\ApiClient\HttpRequest;
 use Psr\Http\Message\ResponseInterface;
 
 abstract class 	BaseEndpoint
@@ -39,11 +39,11 @@ abstract class 	BaseEndpoint
         $this->id = $id;
     }
 
-    /**
-     * @param string $name
-     * @param string[] $values
-     * @return $this
-     */
+	/**
+	 * @param string $name
+	 * @param array $values
+	 * @return $this
+	 */
     public function filter(string $name, array $values)
     {
         $this->filter[$name] = implode(',', $values);
@@ -73,11 +73,11 @@ abstract class 	BaseEndpoint
         return $this;
     }
 
-    /**
-     * @param int $pageNumber
-     * @param int $pageSize
-     * @return $this
-     */
+	/**
+	 * @param int $pageNumber
+	 * @param int $pageSize
+	 * @return $this
+	 */
     public function pagination(int $pageNumber, int $pageSize)
     {
         if (!$pageSize) {
@@ -90,10 +90,10 @@ abstract class 	BaseEndpoint
         return $this;
     }
 
-    /**
-     * @return array
-     * @throws EnergyHubClientException
-     */
+	/**
+	 * @return array
+	 * @throws Exception
+	 */
     public function getOne(): array
     {
         $response = $this->httpRequest->get($this->buildEndpointUrl(), []);
@@ -101,12 +101,12 @@ abstract class 	BaseEndpoint
         return $this->getResponseContent($response);
     }
 
-    /**
-     * @param int $pageNumber
-     * @param int|null $pageSize
-     * @return array
-     * @throws EnergyHubClientException
-     */
+	/**
+	 * @param int $pageNumber
+	 * @param int|null $pageSize
+	 * @return array
+	 * @throws Exception
+	 */
     public function get(int $pageNumber = 1, int $pageSize = null): array
     {
         if (!$pageSize) {
@@ -124,11 +124,11 @@ abstract class 	BaseEndpoint
         return $this->getResponseContent($response);
     }
 
-    /**
-     * @return array|null
-     * @throws EnergyHubClientException
-     */
-    public function first():? array
+	/**
+	 * @return array|null
+	 * @throws Exception
+	 */
+    public function first(): ?array
     {
         $responseContent = $this->get(1, 1);
 
@@ -145,10 +145,10 @@ abstract class 	BaseEndpoint
         return $responseContent;
     }
 
-    /**
-     * @return array
-     * @throws EnergyHubClientException
-     */
+	/**
+	 * @return array
+	 * @throws Exception
+	 */
     public function all(): array
     {
         $params = $this->prepareRequestParams();
@@ -160,11 +160,11 @@ abstract class 	BaseEndpoint
         return $this->getResponseContent($response);
     }
 
-    /**
-     * @param array $data
-     * @return array
-     * @throws EnergyHubClientException
-     */
+	/**
+	 * @param array $data
+	 * @return array
+	 * @throws Exception
+	 */
     public function patch(array $data): array
     {
         $response = $this->httpRequest->patch(
@@ -177,9 +177,11 @@ abstract class 	BaseEndpoint
         return $this->getResponseContent($response);
     }
 
-    /**
-     * @throws EnergyHubClientException
-     */
+	/**
+	 * @param array $data
+	 * @return array
+	 * @throws Exception
+	 */
     public function post(array $data): array
     {
         $response =  $this->httpRequest->post(
@@ -223,11 +225,11 @@ abstract class 	BaseEndpoint
         return $this->endpoint . $id;
     }
 
-    /**
-     * @param ResponseInterface $response
-     * @return array
-     * @throws EnergyHubClientException
-     */
+	/**
+	 * @param ResponseInterface $response
+	 * @return array
+	 * @throws Exception
+	 */
     private function getResponseContent(ResponseInterface $response): array
     {
         $responseContent = $response->getBody()->getContents();
@@ -239,7 +241,7 @@ abstract class 	BaseEndpoint
         try {
             return json_decode($responseContent, true);
         } catch (\Exception $e) {
-            throw new EnergyHubClientException('Invalid JSON in response:' . $responseContent);
+            throw new Exception('Invalid JSON in response:' . $responseContent);
         }
     }
 

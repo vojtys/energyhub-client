@@ -1,7 +1,7 @@
 <?php
-namespace EnergyHub;
+namespace EnergyHub\ApiClient;
 
-class EnergyHubClientException extends \Exception
+class Exception extends \Exception
 {
     private $errors;
 

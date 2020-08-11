@@ -1,14 +1,14 @@
 <?php
-namespace EnergyHub;
+namespace EnergyHub\ApiClient;
 
-use EnergyHub\Endpoints\AdsEndpoint;
-use EnergyHub\Endpoints\PagesEndpoint;
-use EnergyHub\Endpoints\TagsEndpoint;
+use EnergyHub\ApiClient\Endpoints\AdsEndpoint;
+use EnergyHub\ApiClient\Endpoints\PagesEndpoint;
+use EnergyHub\ApiClient\Endpoints\TagsEndpoint;
 use GuzzleHttp\Client as GuzzleClient;
-use EnergyHub\Endpoints\ArticlesEndpoint;
-use EnergyHub\Endpoints\EventsEndpoint;
-use EnergyHub\Endpoints\SettingsEndpoint;
-use EnergyHub\Endpoints\UsersEndpoint;
+use EnergyHub\ApiClient\Endpoints\ArticlesEndpoint;
+use EnergyHub\ApiClient\Endpoints\EventsEndpoint;
+use EnergyHub\ApiClient\Endpoints\SettingsEndpoint;
+use EnergyHub\ApiClient\Endpoints\UsersEndpoint;
 
 class Factory
 {

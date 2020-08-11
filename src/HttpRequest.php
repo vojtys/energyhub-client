@@ -1,7 +1,8 @@
 <?php
-namespace EnergyHub;
+namespace EnergyHub\ApiClient;
 
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\TransferException;
 use Psr\Http\Message\ResponseInterface;
 
@@ -27,12 +28,12 @@ class HttpRequest
         $this->apiKey = $apiKey;
     }
 
-    /**
-     * @param string $endpoint
-     * @param array $params
-     * @return ResponseInterface
-     * @throws EnergyHubClientException
-     */
+	/**
+	 * @param string $endpoint
+	 * @param array $params
+	 * @return ResponseInterface
+	 * @throws Exception
+	 */
     public function get(string $endpoint, array $params): ResponseInterface
     {
         try {
@@ -42,16 +43,18 @@ class HttpRequest
             );
         } catch (TransferException $e) {
             $this->handleException($e);
-        }
+		} catch (GuzzleException $e) {
+			$this->handleGuzzleException($e);
+		}
     }
 
-    /**
-     * @param string $endpoint
-     * @param string $type
-     * @param array $body
-     * @return ResponseInterface
-     * @throws EnergyHubClientException
-     */
+	/**
+	 * @param string $endpoint
+	 * @param string $type
+	 * @param array $body
+	 * @return ResponseInterface
+	 * @throws Exception
+	 */
     public function post(string $endpoint, string $type, array $body): ResponseInterface
     {
         try {
@@ -61,17 +64,19 @@ class HttpRequest
             );
         } catch (TransferException $e) {
             $this->handleException($e);
-        }
+		} catch (GuzzleException $e) {
+			$this->handleGuzzleException($e);
+		}
     }
 
-    /**
-     * @param string $endpoint
-     * @param string $type
-     * @param int $id
-     * @param array $body
-     * @return ResponseInterface
-     * @throws EnergyHubClientException
-     */
+	/**
+	 * @param string $endpoint
+	 * @param string $type
+	 * @param int $id
+	 * @param array $body
+	 * @return ResponseInterface
+	 * @throws Exception
+	 */
     public function patch(string $endpoint, string $type, int $id, array $body): ResponseInterface
     {
         try {
@@ -81,17 +86,19 @@ class HttpRequest
             );
         } catch (TransferException $e) {
             $this->handleException($e);
-        }
+		} catch (GuzzleException $e) {
+			$this->handleGuzzleException($e);
+		}
     }
 
-    /**
-     * @param string $endpoint
-     * @param string $type
-     * @param int $id
-     * @param array|null $body
-     * @return ResponseInterface
-     * @throws EnergyHubClientException
-     */
+	/**
+	 * @param string $endpoint
+	 * @param string $type
+	 * @param int $id
+	 * @param array|null $body
+	 * @return ResponseInterface
+	 * @throws Exception
+	 */
     public function delete(string $endpoint, string $type, int $id, array $body = null): ResponseInterface
     {
         try {
@@ -101,29 +108,40 @@ class HttpRequest
             );
         } catch (TransferException $e) {
             $this->handleException($e);
-        }
+		} catch (GuzzleException $e) {
+			$this->handleGuzzleException($e);
+		}
     }
 
-    /**
-     * @param TransferException $transferException
-     * @throws EnergyHubClientException
-     */
+	/**
+	 * @param TransferException $transferException
+	 * @throws Exception
+	 */
     private function handleException(TransferException $transferException): void
     {
-        throw new EnergyHubClientException($transferException->getMessage(), $transferException->getCode());
+        throw new Exception($transferException->getMessage(), $transferException->getCode());
     }
+
+	/**
+	 * @param GuzzleException $guzzleException
+	 * @throws Exception
+	 */
+    private function handleGuzzleException(GuzzleException $guzzleException): void
+	{
+		throw new Exception($guzzleException->getMessage(), $guzzleException->getCode());
+	}
 
     private function endpointUrl(string $endpoint): string
     {
         return $this->apiUrl . '/' . $endpoint;
     }
 
-    /**
-     * @param string $type
-     * @param int|null $id
-     * @param array|null $body
-     * @return array
-     */
+	/**
+	 * @param string $type
+	 * @param int|null $id
+	 * @param array|null $body
+	 * @return array
+	 */
     private function requestContent(string $type, int $id = null, array $body = null): array
     {
         return [
