@@ -140,7 +140,7 @@ class HttpRequest
 	 * @param string $type
 	 * @param int|null $id
 	 * @param array|null $body
-	 * @return array
+	 * @return mixed[]
 	 */
     private function requestContent(string $type, int $id = null, array $body = null): array
     {
@@ -156,6 +156,9 @@ class HttpRequest
         ];
     }
 
+	/**
+	 * @return string[]
+	 */
     private function getRequestHeaders(): array
     {
         return [
