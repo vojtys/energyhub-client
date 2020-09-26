@@ -2,13 +2,17 @@
 namespace EnergyHub\ApiClient;
 
 use EnergyHub\ApiClient\Endpoints\AdsEndpoint;
+use EnergyHub\ApiClient\Endpoints\Cmdt\CommoditiesEndpoint;
+use EnergyHub\ApiClient\Endpoints\Cmdt\DataEndpoint;
+use EnergyHub\ApiClient\Endpoints\Cmdt\PeaksEndpoint;
+use EnergyHub\ApiClient\Endpoints\Cmdt\TrendsEndpoint;
 use EnergyHub\ApiClient\Endpoints\PagesEndpoint;
 use EnergyHub\ApiClient\Endpoints\TagsEndpoint;
-use GuzzleHttp\Client as GuzzleClient;
 use EnergyHub\ApiClient\Endpoints\ArticlesEndpoint;
 use EnergyHub\ApiClient\Endpoints\EventsEndpoint;
 use EnergyHub\ApiClient\Endpoints\SettingsEndpoint;
 use EnergyHub\ApiClient\Endpoints\UsersEndpoint;
+use GuzzleHttp\Client as GuzzleClient;
 
 class Factory
 {
@@ -31,7 +35,11 @@ class Factory
             new SettingsEndpoint($httpRequest),
             new TagsEndpoint($httpRequest),
             new AdsEndpoint($httpRequest),
-            new PagesEndpoint($httpRequest)
+            new PagesEndpoint($httpRequest),
+			new CommoditiesEndpoint($httpRequest),
+			new DataEndpoint($httpRequest),
+			new PeaksEndpoint($httpRequest),
+			new TrendsEndpoint($httpRequest)
         );
     }
 }
