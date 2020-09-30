@@ -9,6 +9,7 @@ use EnergyHub\ApiClient\Endpoints\Cmdt\PeaksEndpoint;
 use EnergyHub\ApiClient\Endpoints\Cmdt\TrendsEndpoint;
 use EnergyHub\ApiClient\Endpoints\EventsEndpoint;
 use EnergyHub\ApiClient\Endpoints\PagesEndpoint;
+use EnergyHub\ApiClient\Endpoints\PasswordsEndpoint;
 use EnergyHub\ApiClient\Endpoints\SettingsEndpoint;
 use EnergyHub\ApiClient\Endpoints\TagsEndpoint;
 use EnergyHub\ApiClient\Endpoints\UsersEndpoint;
@@ -48,6 +49,9 @@ class Client
 	/** @var TrendsEndpoint */
 	private $trendsEndpoint;
 
+	/** @var PasswordsEndpoint */
+	private $passwordsEndpoint;
+
     public function __construct(
         ArticlesEndpoint $articlesEndpoint,
         EventsEndpoint $eventsEndpoint,
@@ -59,7 +63,8 @@ class Client
 		CommoditiesEndpoint $commoditiesEndpoint,
         DataEndpoint $dataEndpoint,
         PeaksEndpoint $peaksEndpoint,
-		TrendsEndpoint $trendsEndpoint
+		TrendsEndpoint $trendsEndpoint,
+		PasswordsEndpoint $passwordsEndpoint
 	) {
         $this->articlesEndpoint = $articlesEndpoint;
         $this->eventsEndpoint = $eventsEndpoint;
@@ -72,6 +77,7 @@ class Client
 		$this->dataEndpoint = $dataEndpoint;
 		$this->peaksEndpoint = $peaksEndpoint;
 		$this->trendsEndpoint = $trendsEndpoint;
+		$this->passwordsEndpoint = $passwordsEndpoint;
     }
 
     public function ads(int $id = null): AdsEndpoint
@@ -194,5 +200,10 @@ class Client
 		}
 
 		return $trendsEndpoint;
+	}
+
+	public function passwords(): PasswordsEndpoint
+	{
+		return clone $this->passwordsEndpoint;
 	}
 }
