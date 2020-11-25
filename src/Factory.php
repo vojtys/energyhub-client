@@ -45,7 +45,7 @@ class Factory
 			new TrendsEndpoint($httpRequest),
 			new PasswordsEndpoint($httpRequest),
 			new UnitsEndpoint($httpRequest),
-			new ValueTypesEndpoint($httpRequest),
+			new ValueTypesEndpoint($httpRequest)
         );
     }
 }
