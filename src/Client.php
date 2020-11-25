@@ -7,6 +7,8 @@ use EnergyHub\ApiClient\Endpoints\Cmdt\CommoditiesEndpoint;
 use EnergyHub\ApiClient\Endpoints\Cmdt\DataEndpoint;
 use EnergyHub\ApiClient\Endpoints\Cmdt\PeaksEndpoint;
 use EnergyHub\ApiClient\Endpoints\Cmdt\TrendsEndpoint;
+use EnergyHub\ApiClient\Endpoints\Cmdt\UnitsEndpoint;
+use EnergyHub\ApiClient\Endpoints\Cmdt\ValueTypesEndpoint;
 use EnergyHub\ApiClient\Endpoints\EventsEndpoint;
 use EnergyHub\ApiClient\Endpoints\PagesEndpoint;
 use EnergyHub\ApiClient\Endpoints\PasswordsEndpoint;
@@ -52,6 +54,12 @@ class Client
 	/** @var PasswordsEndpoint */
 	private $passwordsEndpoint;
 
+	/** @var UnitsEndpoint */
+	private $unitsEndpoint;
+
+	/** @var ValueTypesEndpoint */
+	private $valueTypesEndpoint;
+
     public function __construct(
         ArticlesEndpoint $articlesEndpoint,
         EventsEndpoint $eventsEndpoint,
@@ -64,7 +72,9 @@ class Client
         DataEndpoint $dataEndpoint,
         PeaksEndpoint $peaksEndpoint,
 		TrendsEndpoint $trendsEndpoint,
-		PasswordsEndpoint $passwordsEndpoint
+		PasswordsEndpoint $passwordsEndpoint,
+		UnitsEndpoint $unitsEndpoint,
+		ValueTypesEndpoint $valueTypesEndpoint
 	) {
         $this->articlesEndpoint = $articlesEndpoint;
         $this->eventsEndpoint = $eventsEndpoint;
@@ -78,6 +88,8 @@ class Client
 		$this->peaksEndpoint = $peaksEndpoint;
 		$this->trendsEndpoint = $trendsEndpoint;
 		$this->passwordsEndpoint = $passwordsEndpoint;
+		$this->unitsEndpoint = $unitsEndpoint;
+		$this->valueTypesEndpoint = $valueTypesEndpoint;
     }
 
     public function ads(int $id = null): AdsEndpoint
@@ -200,6 +212,28 @@ class Client
 		}
 
 		return $trendsEndpoint;
+	}
+
+	public function units(int $id = null): UnitsEndpoint
+	{
+		$unitsEndpoint = clone $this->unitsEndpoint;
+
+		if ($id) {
+			$unitsEndpoint->id($id);
+		}
+
+		return $unitsEndpoint;
+	}
+
+	public function valueTypes(int $id = null): ValueTypesEndpoint
+	{
+		$valueTypesEndpoint = clone $this->valueTypesEndpoint;
+
+		if ($id) {
+			$valueTypesEndpoint->id($id);
+		}
+
+		return $valueTypesEndpoint;
 	}
 
 	public function passwords(): PasswordsEndpoint

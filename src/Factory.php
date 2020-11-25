@@ -6,6 +6,8 @@ use EnergyHub\ApiClient\Endpoints\Cmdt\CommoditiesEndpoint;
 use EnergyHub\ApiClient\Endpoints\Cmdt\DataEndpoint;
 use EnergyHub\ApiClient\Endpoints\Cmdt\PeaksEndpoint;
 use EnergyHub\ApiClient\Endpoints\Cmdt\TrendsEndpoint;
+use EnergyHub\ApiClient\Endpoints\Cmdt\UnitsEndpoint;
+use EnergyHub\ApiClient\Endpoints\Cmdt\ValueTypesEndpoint;
 use EnergyHub\ApiClient\Endpoints\PagesEndpoint;
 use EnergyHub\ApiClient\Endpoints\PasswordsEndpoint;
 use EnergyHub\ApiClient\Endpoints\TagsEndpoint;
@@ -41,7 +43,9 @@ class Factory
 			new DataEndpoint($httpRequest),
 			new PeaksEndpoint($httpRequest),
 			new TrendsEndpoint($httpRequest),
-			new PasswordsEndpoint($httpRequest)
+			new PasswordsEndpoint($httpRequest),
+			new UnitsEndpoint($httpRequest),
+			new ValueTypesEndpoint($httpRequest),
         );
     }
 }
