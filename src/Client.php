@@ -1,4 +1,5 @@
 <?php
+
 namespace EnergyHub\ApiClient;
 
 use EnergyHub\ApiClient\Endpoints\AdsEndpoint;
@@ -18,19 +19,19 @@ use EnergyHub\ApiClient\Endpoints\UsersEndpoint;
 
 class Client
 {
-    private ArticlesEndpoint $articlesEndpoint;
+	private ArticlesEndpoint $articlesEndpoint;
 
-    private EventsEndpoint $eventsEndpoint;
+	private EventsEndpoint $eventsEndpoint;
 
-    private UsersEndpoint $usersEndpoint;
+	private UsersEndpoint $usersEndpoint;
 
-    private SettingsEndpoint $settingsEndpoint;
+	private SettingsEndpoint $settingsEndpoint;
 
-    private TagsEndpoint $tagsEndpoint;
+	private TagsEndpoint $tagsEndpoint;
 
-    private AdsEndpoint $adsEndpoint;
+	private AdsEndpoint $adsEndpoint;
 
-    private PagesEndpoint $pagesEndpoint;
+	private PagesEndpoint $pagesEndpoint;
 
 	private CommoditiesEndpoint $commoditiesEndpoint;
 
@@ -48,98 +49,98 @@ class Client
 
 	public function __construct(HttpRequest $httpRequest)
 	{
-    	$this->articlesEndpoint = new ArticlesEndpoint($httpRequest);
-        $this->eventsEndpoint = new EventsEndpoint($httpRequest);
-        $this->usersEndpoint = new UsersEndpoint($httpRequest);
-        $this->settingsEndpoint = new SettingsEndpoint($httpRequest);
-        $this->tagsEndpoint = new TagsEndpoint($httpRequest);
-        $this->adsEndpoint = new AdsEndpoint($httpRequest);
-        $this->pagesEndpoint = new PagesEndpoint($httpRequest);
-        $this->commoditiesEndpoint = new CommoditiesEndpoint($httpRequest);
+		$this->articlesEndpoint = new ArticlesEndpoint($httpRequest);
+		$this->eventsEndpoint = new EventsEndpoint($httpRequest);
+		$this->usersEndpoint = new UsersEndpoint($httpRequest);
+		$this->settingsEndpoint = new SettingsEndpoint($httpRequest);
+		$this->tagsEndpoint = new TagsEndpoint($httpRequest);
+		$this->adsEndpoint = new AdsEndpoint($httpRequest);
+		$this->pagesEndpoint = new PagesEndpoint($httpRequest);
+		$this->commoditiesEndpoint = new CommoditiesEndpoint($httpRequest);
 		$this->dataEndpoint = new DataEndpoint($httpRequest);
 		$this->peaksEndpoint = new PeaksEndpoint($httpRequest);
-		$this->trendsEndpoint =	new TrendsEndpoint($httpRequest);
+		$this->trendsEndpoint = new TrendsEndpoint($httpRequest);
 		$this->passwordsEndpoint = new PasswordsEndpoint($httpRequest);
 		$this->unitsEndpoint = new UnitsEndpoint($httpRequest);
 		$this->valueTypesEndpoint = new ValueTypesEndpoint($httpRequest);
-    }
+	}
 
-    public function ads(int $id = null): AdsEndpoint
-    {
-        $adsEndpoint = clone $this->adsEndpoint;
+	public function ads(int $id = null): AdsEndpoint
+	{
+		$adsEndpoint = clone $this->adsEndpoint;
 
-        if ($id) {
-            $adsEndpoint->id($id);
-        }
+		if ($id) {
+			$adsEndpoint->id($id);
+		}
 
-        return $adsEndpoint;
-    }
+		return $adsEndpoint;
+	}
 
-    public function articles(int $id = null): ArticlesEndpoint
-    {
-        $articlesEndpoint = clone $this->articlesEndpoint;
+	public function articles(int $id = null): ArticlesEndpoint
+	{
+		$articlesEndpoint = clone $this->articlesEndpoint;
 
-        if ($id) {
-            $articlesEndpoint->id($id);
-        }
+		if ($id) {
+			$articlesEndpoint->id($id);
+		}
 
-        return $articlesEndpoint;
-    }
+		return $articlesEndpoint;
+	}
 
-    public function events(int $id = null): EventsEndpoint
-    {
-        $eventsEndpoint = clone $this->eventsEndpoint;
+	public function events(int $id = null): EventsEndpoint
+	{
+		$eventsEndpoint = clone $this->eventsEndpoint;
 
-        if ($id) {
-            $eventsEndpoint->id($id);
-        }
+		if ($id) {
+			$eventsEndpoint->id($id);
+		}
 
-        return $eventsEndpoint;
-    }
+		return $eventsEndpoint;
+	}
 
-    public function users(int $id = null): UsersEndpoint
-    {
-        $usersEndpoint = clone $this->usersEndpoint;
+	public function users(int $id = null): UsersEndpoint
+	{
+		$usersEndpoint = clone $this->usersEndpoint;
 
-        if ($id) {
-            $usersEndpoint->id($id);
-        }
+		if ($id) {
+			$usersEndpoint->id($id);
+		}
 
-        return $usersEndpoint;
-    }
+		return $usersEndpoint;
+	}
 
-    public function settings(int $id = null): SettingsEndpoint
-    {
-        $settingsEndpoint = clone $this->settingsEndpoint;
+	public function settings(int $id = null): SettingsEndpoint
+	{
+		$settingsEndpoint = clone $this->settingsEndpoint;
 
-        if ($id) {
-            $settingsEndpoint->id($id);
-        }
+		if ($id) {
+			$settingsEndpoint->id($id);
+		}
 
-        return $settingsEndpoint;
-    }
+		return $settingsEndpoint;
+	}
 
-    public function tags(int $id = null): TagsEndpoint
-    {
-        $tagsEndpoint = clone $this->tagsEndpoint;
+	public function tags(int $id = null): TagsEndpoint
+	{
+		$tagsEndpoint = clone $this->tagsEndpoint;
 
-        if ($id) {
-            $tagsEndpoint->id($id);
-        }
+		if ($id) {
+			$tagsEndpoint->id($id);
+		}
 
-        return $tagsEndpoint;
-    }
+		return $tagsEndpoint;
+	}
 
-    public function pages(int $id = null): PagesEndpoint
-    {
-        $pagesEndpoint = clone $this->pagesEndpoint;
+	public function pages(int $id = null): PagesEndpoint
+	{
+		$pagesEndpoint = clone $this->pagesEndpoint;
 
-        if ($id) {
-            $pagesEndpoint->id($id);
-        }
+		if ($id) {
+			$pagesEndpoint->id($id);
+		}
 
-        return $pagesEndpoint;
-    }
+		return $pagesEndpoint;
+	}
 
 
 	public function commodities(int $id = null): CommoditiesEndpoint
