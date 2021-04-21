@@ -1,252 +1,215 @@
 <?php
+
 namespace EnergyHub\ApiClient\Endpoints;
 
 use EnergyHub\ApiClient\Exception;
 use EnergyHub\ApiClient\HttpRequest;
 use Psr\Http\Message\ResponseInterface;
 
-abstract class 	BaseEndpoint
+abstract class BaseEndpoint
 {
-    /** @var HttpRequest $httpRequest */
-    protected $httpRequest;
+	protected HttpRequest $httpRequest;
 
-    /** @var string $endpoint */
-    protected $endpoint;
+	protected string $endpoint;
 
-    /** @var int $id */
-    protected $id;
+	protected int|null $id = null;
 
-    /** @var array $filter */
-    protected $filter = [];
+	protected array|null $filter = [];
 
-    /** @var string $include */
-    protected $include;
+	protected string|null $include = null;
 
-    /** @var string $sort */
-    protected $sort;
+	protected string|null $sort = null;
 
-    /** @var array $page */
-    protected $page;
+	protected array|null $page = null;
 
+	public function __construct(HttpRequest $httpRequest)
+	{
+		$this->httpRequest = $httpRequest;
+	}
 
-    public function __construct(HttpRequest $httpRequest)
-    {
-        $this->httpRequest = $httpRequest;
-    }
+	public function id(int $id): void
+	{
+		$this->id = $id;
+	}
 
-    public function id(int $id): void
-    {
-        $this->id = $id;
-    }
+	public function filter(string $name, array $values): static
+	{
+		$this->filter[$name] = implode(',', $values);
 
-	/**
-	 * @param string $name
-	 * @param array $values
-	 * @return $this
-	 */
-    public function filter(string $name, array $values)
-    {
-        $this->filter[$name] = implode(',', $values);
+		return $this;
+	}
 
-        return $this;
-    }
+	public function include(array $values): static
+	{
+		$this->include = implode(',', $values);
 
-    /**
-     * @param string[] $values
-     * @return $this
-     */
-    public function include(array $values)
-    {
-        $this->include = implode(',', $values);
+		return $this;
+	}
 
-        return $this;
-    }
+	public function sort(array $values): static
+	{
+		$this->sort = implode(',', $values);
 
-    /**
-     * @param string[] $values
-     * @return $this
-     */
-    public function sort(array $values)
-    {
-        $this->sort = implode(',', $values);
+		return $this;
+	}
 
-        return $this;
-    }
+	public function pagination(int $pageNumber, int $pageSize): static
+	{
+		if (!$pageSize) {
+			$pageSize = 10;
+		}
+
+		$this->page['number'] = $pageNumber;
+		$this->page['size'] = $pageSize;
+
+		return $this;
+	}
 
 	/**
-	 * @param int $pageNumber
-	 * @param int $pageSize
-	 * @return $this
-	 */
-    public function pagination(int $pageNumber, int $pageSize)
-    {
-        if (!$pageSize) {
-            $pageSize = 10;
-        }
-
-        $this->page['number'] = $pageNumber;
-        $this->page['size'] = $pageSize;
-
-        return $this;
-    }
-
-	/**
-	 * @return array
 	 * @throws Exception
 	 */
-    public function getOne(): array
-    {
-        $response = $this->httpRequest->get($this->buildEndpointUrl(), []);
+	public function getOne(): array
+	{
+		$response = $this->httpRequest->get($this->buildEndpointUrl(), []);
 
-        return $this->getResponseContent($response);
-    }
-
-	/**
-	 * @param int $pageNumber
-	 * @param int|null $pageSize
-	 * @return array
-	 * @throws Exception
-	 */
-    public function get(int $pageNumber = 1, int $pageSize = null): array
-    {
-        if (!$pageSize) {
-            $pageSize = 10;
-        }
-
-        $this->pagination($pageNumber, $pageSize);
-
-        $params = $this->prepareRequestParams();
-
-        $response = $this->httpRequest->get($this->buildEndpointUrl(), [
-            'query' => $params,
-        ]);
-
-        return $this->getResponseContent($response);
-    }
+		return $this->getResponseContent($response);
+	}
 
 	/**
-	 * @return array|null
 	 * @throws Exception
 	 */
-    public function first(): ?array
-    {
-        $responseContent = $this->get(1, 1);
+	public function get(int $pageNumber = 1, int $pageSize = null): array
+	{
+		if (!$pageSize) {
+			$pageSize = 10;
+		}
 
-        if (($this->isSingleItemResponse() && empty($responseContent['data']))
-            || (!$this->isSingleItemResponse() && empty($responseContent['data'][0]))
-        ) {
-            return null;
-        }
+		$this->pagination($pageNumber, $pageSize);
 
-        if (!$this->isSingleItemResponse()) {
-            $responseContent['data'] = collect($responseContent['data'])->shift();
-        }
+		$params = $this->prepareRequestParams();
 
-        return $responseContent;
-    }
+		$response = $this->httpRequest->get($this->buildEndpointUrl(), [
+			'query' => $params,
+		]);
+
+		return $this->getResponseContent($response);
+	}
 
 	/**
-	 * @return array
 	 * @throws Exception
 	 */
-    public function all(): array
-    {
-        $params = $this->prepareRequestParams();
+	public function first(): ?array
+	{
+		$responseContent = $this->get(1, 1);
 
-        $response = $this->httpRequest->get($this->buildEndpointUrl(), [
-            'query' => $params,
-        ]);
+		if (($this->isSingleItemResponse() && empty($responseContent['data']))
+			|| (!$this->isSingleItemResponse() && empty($responseContent['data'][0]))
+		) {
+			return null;
+		}
 
-        return $this->getResponseContent($response);
-    }
+		if (!$this->isSingleItemResponse()) {
+			$responseContent['data'] = collect($responseContent['data'])->shift();
+		}
+
+		return $responseContent;
+	}
 
 	/**
-	 * @param array $data
-	 * @return array
 	 * @throws Exception
 	 */
-    public function patch(array $data): array
-    {
-        $response = $this->httpRequest->patch(
-            $this->buildEndpointUrl(),
-            $this->endpoint,
-            $this->id,
-            $data
-        );
+	public function all(): array
+	{
+		$params = $this->prepareRequestParams();
 
-        return $this->getResponseContent($response);
-    }
+		$response = $this->httpRequest->get($this->buildEndpointUrl(), [
+			'query' => $params,
+		]);
+
+		return $this->getResponseContent($response);
+	}
 
 	/**
-	 * @param array $data
-	 * @return array
 	 * @throws Exception
 	 */
-    public function post(array $data): array
-    {
-        $response =  $this->httpRequest->post(
-            $this->buildEndpointUrl(),
-            $this->endpoint,
-            $data
-        );
+	public function patch(array $data): array
+	{
+		$response = $this->httpRequest->patch(
+			$this->buildEndpointUrl(),
+			$this->endpoint,
+			$this->id,
+			$data
+		);
 
-        return $this->getResponseContent($response);
-    }
-
-    protected function prepareRequestParams(): array
-    {
-        $params = [];
-
-        if ($this->filter) {
-            $params['filter'] = $this->filter;
-        }
-
-        if ($this->include) {
-            $params['include'] = $this->include;
-        }
-
-        if (!empty($this->page)) {
-            $params['page'] = $this->page;
-        }
-
-        if ($this->sort) {
-            $params['sort'] = $this->sort;
-        }
-
-        return $params;
-    }
-
-    protected function buildEndpointUrl(): string
-    {
-        $id = !empty($this->id)
-            ? '/' . $this->id
-            : '';
-
-        return $this->endpoint . $id;
-    }
+		return $this->getResponseContent($response);
+	}
 
 	/**
-	 * @param ResponseInterface $response
-	 * @return array
 	 * @throws Exception
 	 */
-    private function getResponseContent(ResponseInterface $response): array
-    {
-        $responseContent = $response->getBody()->getContents();
+	public function post(array $data): array
+	{
+		$response = $this->httpRequest->post(
+			$this->buildEndpointUrl(),
+			$this->endpoint,
+			$data
+		);
 
-        if (empty($responseContent)) {
-            return [];
-        }
+		return $this->getResponseContent($response);
+	}
 
-        try {
-            return json_decode($responseContent, true);
-        } catch (\Exception $e) {
-            throw new Exception('Invalid JSON in response:' . $responseContent);
-        }
-    }
+	protected function prepareRequestParams(): array
+	{
+		$params = [];
 
-    private function isSingleItemResponse(): bool
-    {
-        return $this->id !== null;
-    }
+		if ($this->filter) {
+			$params['filter'] = $this->filter;
+		}
+
+		if ($this->include) {
+			$params['include'] = $this->include;
+		}
+
+		if (!empty($this->page)) {
+			$params['page'] = $this->page;
+		}
+
+		if ($this->sort) {
+			$params['sort'] = $this->sort;
+		}
+
+		return $params;
+	}
+
+	protected function buildEndpointUrl(): string
+	{
+		$id = !empty($this->id)
+			? '/' . $this->id
+			: '';
+
+		return $this->endpoint . $id;
+	}
+
+	/**
+	 * @throws Exception
+	 */
+	private function getResponseContent(ResponseInterface $response): array
+	{
+		$responseContent = $response->getBody()->getContents();
+
+		if (empty($responseContent)) {
+			return [];
+		}
+
+		try {
+			return json_decode($responseContent, true);
+		} catch (\Exception $e) {
+			throw new Exception('Invalid JSON in response:' . $responseContent);
+		}
+	}
+
+	private function isSingleItemResponse(): bool
+	{
+		return $this->id !== null;
+	}
 }

@@ -11,13 +11,18 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": "^7.2.0",
+        "php": "^8.0",
         "guzzlehttp/guzzle": "^7.0",
-        "illuminate/support": "^7.28"
+        "illuminate/support": "^8.0"
     },
     "autoload": {
         "psr-4": {
-            "EnergyHub\\ApiClient\\": "src/"
+            "EnergyHub\\ApiClient\\": "src/",
+            "EnergyHub\\ApiClient\\Tests\\": "tests/"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~6.0||~7.0||~9.5",
+        "mockery/mockery": "^1.4"
     }
 }
