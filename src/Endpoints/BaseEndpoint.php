@@ -5,29 +5,21 @@ use EnergyHub\ApiClient\Exception;
 use EnergyHub\ApiClient\HttpRequest;
 use Psr\Http\Message\ResponseInterface;
 
-abstract class 	BaseEndpoint
+abstract class BaseEndpoint
 {
-    /** @var HttpRequest $httpRequest */
-    protected $httpRequest;
+    protected HttpRequest $httpRequest;
 
-    /** @var string $endpoint */
-    protected $endpoint;
+    protected string $endpoint;
 
-    /** @var int $id */
-    protected $id;
+    protected int|null $id = null;
 
-    /** @var array $filter */
-    protected $filter = [];
+    protected array|null $filter = [];
 
-    /** @var string $include */
-    protected $include;
+    protected string|null $include = null;
 
-    /** @var string $sort */
-    protected $sort;
+    protected string|null $sort = null;
 
-    /** @var array $page */
-    protected $page;
-
+    protected array|null $page = null;
 
     public function __construct(HttpRequest $httpRequest)
     {
@@ -39,46 +31,28 @@ abstract class 	BaseEndpoint
         $this->id = $id;
     }
 
-	/**
-	 * @param string $name
-	 * @param array $values
-	 * @return $this
-	 */
-    public function filter(string $name, array $values)
+    public function filter(string $name, array $values): static
     {
         $this->filter[$name] = implode(',', $values);
 
         return $this;
     }
 
-    /**
-     * @param string[] $values
-     * @return $this
-     */
-    public function include(array $values)
+    public function include(array $values): static
     {
         $this->include = implode(',', $values);
 
         return $this;
     }
 
-    /**
-     * @param string[] $values
-     * @return $this
-     */
-    public function sort(array $values)
+    public function sort(array $values): static
     {
         $this->sort = implode(',', $values);
 
         return $this;
     }
 
-	/**
-	 * @param int $pageNumber
-	 * @param int $pageSize
-	 * @return $this
-	 */
-    public function pagination(int $pageNumber, int $pageSize)
+    public function pagination(int $pageNumber, int $pageSize): static
     {
         if (!$pageSize) {
             $pageSize = 10;
@@ -91,7 +65,6 @@ abstract class 	BaseEndpoint
     }
 
 	/**
-	 * @return array
 	 * @throws Exception
 	 */
     public function getOne(): array
@@ -102,9 +75,6 @@ abstract class 	BaseEndpoint
     }
 
 	/**
-	 * @param int $pageNumber
-	 * @param int|null $pageSize
-	 * @return array
 	 * @throws Exception
 	 */
     public function get(int $pageNumber = 1, int $pageSize = null): array
@@ -125,7 +95,6 @@ abstract class 	BaseEndpoint
     }
 
 	/**
-	 * @return array|null
 	 * @throws Exception
 	 */
     public function first(): ?array
@@ -146,7 +115,6 @@ abstract class 	BaseEndpoint
     }
 
 	/**
-	 * @return array
 	 * @throws Exception
 	 */
     public function all(): array
@@ -161,8 +129,6 @@ abstract class 	BaseEndpoint
     }
 
 	/**
-	 * @param array $data
-	 * @return array
 	 * @throws Exception
 	 */
     public function patch(array $data): array
@@ -178,8 +144,6 @@ abstract class 	BaseEndpoint
     }
 
 	/**
-	 * @param array $data
-	 * @return array
 	 * @throws Exception
 	 */
     public function post(array $data): array
@@ -226,8 +190,6 @@ abstract class 	BaseEndpoint
     }
 
 	/**
-	 * @param ResponseInterface $response
-	 * @return array
 	 * @throws Exception
 	 */
     private function getResponseContent(ResponseInterface $response): array

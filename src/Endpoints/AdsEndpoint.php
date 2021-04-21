@@ -6,7 +6,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class AdsEndpoint extends BaseEndpoint
 {
-    protected $endpoint = 'ads';
+    protected string $endpoint = 'ads';
 
 	/**
 	 * @return ResponseInterface

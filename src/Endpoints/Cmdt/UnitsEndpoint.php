@@ -5,5 +5,5 @@ use EnergyHub\ApiClient\Endpoints\BaseEndpoint;
 
 class UnitsEndpoint extends BaseEndpoint
 {
-	protected $endpoint = 'cmdt/units';
+	protected string $endpoint = 'cmdt/units';
 }

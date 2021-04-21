@@ -5,5 +5,5 @@ use EnergyHub\ApiClient\Endpoints\BaseEndpoint;
 
 class DataEndpoint extends BaseEndpoint
 {
-    protected $endpoint = 'cmdt/data';
+    protected string $endpoint = 'cmdt/data';
 }

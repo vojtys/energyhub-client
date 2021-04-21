@@ -5,7 +5,7 @@ use EnergyHub\ApiClient\Endpoints\BaseEndpoint;
 
 class TrendsEndpoint extends BaseEndpoint
 {
-    protected $endpoint = 'cmdt/trends';
+    protected string $endpoint = 'cmdt/trends';
 
     public function latest(): TrendsEndpoint
 	{

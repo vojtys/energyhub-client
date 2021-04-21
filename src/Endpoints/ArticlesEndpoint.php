@@ -12,5 +12,5 @@ class ArticlesEndpoint extends BaseEndpoint
     public const IMPORTANT = 1;
     public const NOT_IMPORTANT = 0;
 
-    protected $endpoint = 'articles';
+    protected string $endpoint = 'articles';
 }

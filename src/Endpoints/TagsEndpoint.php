@@ -3,13 +3,12 @@ namespace EnergyHub\ApiClient\Endpoints;
 
 class TagsEndpoint extends BaseEndpoint
 {
-    protected $endpoint = 'tags';
+    protected string $endpoint = 'tags';
 
     /**
      * @param string[] $values
-     * @return $this
      */
-    public function sort(array $values)
+    public function sort(array $values): static
     {
         $sort = collect($values)->map(function ($item) {
             if (($item === '-cs') || ($item === 'cs')) {

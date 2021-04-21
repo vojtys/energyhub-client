@@ -15,81 +15,55 @@ use EnergyHub\ApiClient\Endpoints\PasswordsEndpoint;
 use EnergyHub\ApiClient\Endpoints\SettingsEndpoint;
 use EnergyHub\ApiClient\Endpoints\TagsEndpoint;
 use EnergyHub\ApiClient\Endpoints\UsersEndpoint;
+use JetBrains\PhpStorm\Pure;
 
 class Client
 {
-    /** @var ArticlesEndpoint */
-    private $articlesEndpoint;
+    private ArticlesEndpoint $articlesEndpoint;
 
-    /** @var EventsEndpoint */
-    private $eventsEndpoint;
+    private EventsEndpoint $eventsEndpoint;
 
-    /** @var UsersEndpoint */
-    private $usersEndpoint;
+    private UsersEndpoint $usersEndpoint;
 
-    /** @var SettingsEndpoint */
-    private $settingsEndpoint;
+    private SettingsEndpoint $settingsEndpoint;
 
-    /** @var TagsEndpoint */
-    private $tagsEndpoint;
+    private TagsEndpoint $tagsEndpoint;
 
-    /** @var AdsEndpoint */
-    private $adsEndpoint;
+    private AdsEndpoint $adsEndpoint;
 
-    /** @var PagesEndpoint */
-    private $pagesEndpoint;
+    private PagesEndpoint $pagesEndpoint;
 
-	/** @var CommoditiesEndpoint */
-	private $commoditiesEndpoint;
+	private CommoditiesEndpoint $commoditiesEndpoint;
 
-	/** @var DataEndpoint */
-	private $dataEndpoint;
+	private DataEndpoint $dataEndpoint;
 
-	/** @var PeaksEndpoint */
-	private $peaksEndpoint;
+	private PeaksEndpoint $peaksEndpoint;
 
-	/** @var TrendsEndpoint */
-	private $trendsEndpoint;
+	private TrendsEndpoint $trendsEndpoint;
 
-	/** @var PasswordsEndpoint */
-	private $passwordsEndpoint;
+	private PasswordsEndpoint $passwordsEndpoint;
 
-	/** @var UnitsEndpoint */
-	private $unitsEndpoint;
+	private UnitsEndpoint $unitsEndpoint;
 
-	/** @var ValueTypesEndpoint */
-	private $valueTypesEndpoint;
+	private ValueTypesEndpoint $valueTypesEndpoint;
 
-    public function __construct(
-        ArticlesEndpoint $articlesEndpoint,
-        EventsEndpoint $eventsEndpoint,
-        UsersEndpoint $usersEndpoint,
-        SettingsEndpoint $settingsEndpoint,
-        TagsEndpoint $tagsEndpoint,
-        AdsEndpoint $adsEndpoint,
-        PagesEndpoint $pagesEndpoint,
-		CommoditiesEndpoint $commoditiesEndpoint,
-        DataEndpoint $dataEndpoint,
-        PeaksEndpoint $peaksEndpoint,
-		TrendsEndpoint $trendsEndpoint,
-		PasswordsEndpoint $passwordsEndpoint,
-		UnitsEndpoint $unitsEndpoint,
-		ValueTypesEndpoint $valueTypesEndpoint
-	) {
-        $this->articlesEndpoint = $articlesEndpoint;
-        $this->eventsEndpoint = $eventsEndpoint;
-        $this->usersEndpoint = $usersEndpoint;
-        $this->settingsEndpoint = $settingsEndpoint;
-        $this->tagsEndpoint = $tagsEndpoint;
-        $this->adsEndpoint = $adsEndpoint;
-        $this->pagesEndpoint = $pagesEndpoint;
-		$this->commoditiesEndpoint = $commoditiesEndpoint;
-		$this->dataEndpoint = $dataEndpoint;
-		$this->peaksEndpoint = $peaksEndpoint;
-		$this->trendsEndpoint = $trendsEndpoint;
-		$this->passwordsEndpoint = $passwordsEndpoint;
-		$this->unitsEndpoint = $unitsEndpoint;
-		$this->valueTypesEndpoint = $valueTypesEndpoint;
+    #[Pure]
+	public function __construct(HttpRequest $httpRequest)
+	{
+    	$this->articlesEndpoint = new ArticlesEndpoint($httpRequest);
+        $this->eventsEndpoint = new EventsEndpoint($httpRequest);
+        $this->usersEndpoint = new UsersEndpoint($httpRequest);
+        $this->settingsEndpoint = new SettingsEndpoint($httpRequest);
+        $this->tagsEndpoint = new TagsEndpoint($httpRequest);
+        $this->adsEndpoint = new AdsEndpoint($httpRequest);
+        $this->pagesEndpoint = new PagesEndpoint($httpRequest);
+        $this->commoditiesEndpoint = new CommoditiesEndpoint($httpRequest);
+		$this->dataEndpoint = new DataEndpoint($httpRequest);
+		$this->peaksEndpoint = new PeaksEndpoint($httpRequest);
+		$this->trendsEndpoint =	new TrendsEndpoint($httpRequest);
+		$this->passwordsEndpoint = new PasswordsEndpoint($httpRequest);
+		$this->unitsEndpoint = new UnitsEndpoint($httpRequest);
+		$this->valueTypesEndpoint = new ValueTypesEndpoint($httpRequest);
     }
 
     public function ads(int $id = null): AdsEndpoint

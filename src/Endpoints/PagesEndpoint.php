@@ -3,5 +3,5 @@ namespace EnergyHub\ApiClient\Endpoints;
 
 class PagesEndpoint extends BaseEndpoint
 {
-    protected $endpoint = 'pages';
+    protected string $endpoint = 'pages';
 }
