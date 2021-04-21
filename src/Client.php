@@ -15,7 +15,6 @@ use EnergyHub\ApiClient\Endpoints\PasswordsEndpoint;
 use EnergyHub\ApiClient\Endpoints\SettingsEndpoint;
 use EnergyHub\ApiClient\Endpoints\TagsEndpoint;
 use EnergyHub\ApiClient\Endpoints\UsersEndpoint;
-use JetBrains\PhpStorm\Pure;
 
 class Client
 {
@@ -47,7 +46,6 @@ class Client
 
 	private ValueTypesEndpoint $valueTypesEndpoint;
 
-    #[Pure]
 	public function __construct(HttpRequest $httpRequest)
 	{
     	$this->articlesEndpoint = new ArticlesEndpoint($httpRequest);
