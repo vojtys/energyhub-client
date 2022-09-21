@@ -4,6 +4,7 @@ namespace EnergyHub\ApiClient;
 
 use EnergyHub\ApiClient\Endpoints\AdsEndpoint;
 use EnergyHub\ApiClient\Endpoints\ArticlesEndpoint;
+use EnergyHub\ApiClient\Endpoints\Cmdt\AveragesEndpoint;
 use EnergyHub\ApiClient\Endpoints\Cmdt\CommoditiesEndpoint;
 use EnergyHub\ApiClient\Endpoints\Cmdt\DataEndpoint;
 use EnergyHub\ApiClient\Endpoints\Cmdt\PeaksEndpoint;
@@ -47,6 +48,8 @@ class Client
 
 	private ValueTypesEndpoint $valueTypesEndpoint;
 
+	private AveragesEndpoint $averagesEndpoint;
+
 	public function __construct(HttpRequest $httpRequest)
 	{
 		$this->articlesEndpoint = new ArticlesEndpoint($httpRequest);
@@ -63,6 +66,7 @@ class Client
 		$this->passwordsEndpoint = new PasswordsEndpoint($httpRequest);
 		$this->unitsEndpoint = new UnitsEndpoint($httpRequest);
 		$this->valueTypesEndpoint = new ValueTypesEndpoint($httpRequest);
+		$this->averagesEndpoint = new AveragesEndpoint($httpRequest);
 	}
 
 	public function ads(int $id = null): AdsEndpoint
@@ -207,6 +211,17 @@ class Client
 		}
 
 		return $valueTypesEndpoint;
+	}
+
+	public function averages(int $id = null): AveragesEndpoint
+	{
+		$averagesEndpoint = clone $this->averagesEndpoint;
+
+		if ($id) {
+			$averagesEndpoint->id($id);
+		}
+
+		return $averagesEndpoint;
 	}
 
 	public function passwords(): PasswordsEndpoint
