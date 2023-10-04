@@ -16,6 +16,7 @@ use EnergyHub\ApiClient\Endpoints\PagesEndpoint;
 use EnergyHub\ApiClient\Endpoints\PasswordsEndpoint;
 use EnergyHub\ApiClient\Endpoints\SettingsEndpoint;
 use EnergyHub\ApiClient\Endpoints\TagsEndpoint;
+use EnergyHub\ApiClient\Endpoints\UserActivationEndpoint;
 use EnergyHub\ApiClient\Endpoints\UsersEndpoint;
 
 class Client
@@ -50,6 +51,8 @@ class Client
 
 	private AveragesEndpoint $averagesEndpoint;
 
+	private UserActivationEndpoint $userActivationEndpoint;
+
 	public function __construct(HttpRequest $httpRequest)
 	{
 		$this->articlesEndpoint = new ArticlesEndpoint($httpRequest);
@@ -67,6 +70,7 @@ class Client
 		$this->unitsEndpoint = new UnitsEndpoint($httpRequest);
 		$this->valueTypesEndpoint = new ValueTypesEndpoint($httpRequest);
 		$this->averagesEndpoint = new AveragesEndpoint($httpRequest);
+		$this->userActivationEndpoint = new UserActivationEndpoint($httpRequest);
 	}
 
 	public function ads(int $id = null): AdsEndpoint
@@ -227,5 +231,10 @@ class Client
 	public function passwords(): PasswordsEndpoint
 	{
 		return clone $this->passwordsEndpoint;
+	}
+
+	public function userActivation(): UserActivationEndpoint
+	{
+		return clone $this->userActivationEndpoint;
 	}
 }
